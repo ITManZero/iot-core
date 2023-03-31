@@ -48,7 +48,13 @@ class UserActivityProvider extends ServiceProvider
             true,
             false,
             false,
-            'consumeMessage');
+            function (AMQPMessage $message) {
+                $json = json_decode($message->body, true);
+                $mapper = new JsonMapper();
+                $mapper->map($json, new UserActivity());
+                $blockedUsers = $this->app->make('blockedUsers');
+                $blockedUsers[] = $json;
+            });
 
         while (count($this->channel->callbacks)) {
             $this->channel->wait();
@@ -61,19 +67,5 @@ class UserActivityProvider extends ServiceProvider
             $this->channel->close();
             $this->connection->close();
         });
-    }
-
-
-    /**
-     * @throws BindingResolutionException
-     * @throws JsonMapper_Exception
-     */
-    public function consumeMessage(AMQPMessage $message)
-    {
-        $json = json_decode($message->body, true);
-        $mapper = new JsonMapper();
-        $mapper->map($json, new UserActivity());
-        $blockedUsers = $this->app->make('blockedUsers');
-        $blockedUsers[] = $json;
     }
 }
