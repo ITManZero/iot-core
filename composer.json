@@ -1,0 +1,26 @@
+{
+    "name": "ite/iot-core",
+    "description": "Core library includes the most common providers and services",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ite\\IotCore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bakr Mslmani",
+            "email": "baker.mesl.bm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "php-amqplib/php-amqplib": "^3.5",
+        "tymon/jwt-auth": "^2.0",
+        "laravel/framework": "^10.5",
+        "laravel/tinker": "^2.8",
+        "guzzlehttp/guzzle": "^7.5",
+        "netresearch/jsonmapper": "^4.1"
+    }
+}
