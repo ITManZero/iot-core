@@ -1,5 +1,5 @@
 {
-    "name": "ite/iot-core",
+    "name": "ite-heros/iot-core",
     "description": "Core library includes the most common providers and services",
     "type": "library",
     "license": "MIT",
