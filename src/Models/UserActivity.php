@@ -2,8 +2,6 @@
 
 namespace Ite\IotCore\Models;
 
-
-use DateTime;
 use Ite\IotCore\Builders\UserActivityBuilder;
 
 class UserActivity
@@ -35,9 +33,9 @@ class UserActivity
 
     /**
      * Expire Date time
-     * @var DateTime | null
+     * @var \DateTime | null
      */
-    public $expireAt = null;
+    public ?\DateTime $expireAt = null;
 
     public function create(int $id, string $name, string $action, string $message, bool $isAdmin): UserActivity
     {
