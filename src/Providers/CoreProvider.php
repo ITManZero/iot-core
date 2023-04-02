@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\ServiceProvider;
 use Ite\IotCore\Commands\RabbitMQConsumerCommand;
 use Ite\IotCore\Context\UserActivityContext;
+use Ite\IotCore\Models\UserActivity;
 
 class CoreProvider extends ServiceProvider
 {
@@ -26,9 +27,10 @@ class CoreProvider extends ServiceProvider
 
         $this->commands($this->commands);
 
-        $this->app->bind(UserActivityContext::class, function () {
-            return UserActivityContext::getInstance();
-        });
+        $context = UserActivityContext::getInstance();
+        $context->add(new UserActivity());
+        $context->add(new UserActivity());
+        $this->app->singleton(UserActivityContext::class, $context);
     }
 
 
