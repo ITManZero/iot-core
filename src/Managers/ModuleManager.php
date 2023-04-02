@@ -20,7 +20,7 @@ class ModuleManager extends BaseManager
         return false;
     }
 
-    public function init(): mixed
+    public function initValue(): string
     {
         return env('MODULE_NAME');
     }

@@ -28,10 +28,10 @@ abstract class BaseManager
         Cache::put($this->key, $value);
     }
 
-    public abstract function init(): mixed;
+    public abstract function initValue(): mixed;
 
-    public function clear(): void
+    public function init(): void
     {
-        $this->set($this->init());
+        $this->set($this->initValue());
     }
 }
