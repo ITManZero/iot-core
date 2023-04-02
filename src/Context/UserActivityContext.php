@@ -24,7 +24,7 @@ class UserActivityContext
 
     public function getUserActivities(): array
     {
-        return Cache::get(UserActivityContext::class);
+        return unserialize(Cache::get(UserActivityContext::class));
     }
 
     public function setUserActivities(array $userActivities): void
@@ -34,12 +34,12 @@ class UserActivityContext
 
     public function clear(): void
     {
-        Cache::put(UserActivityContext::class, []);
+        $this->setUserActivities([]);
     }
 
     public function init(): void
     {
-        if (is_null(Cache::get(UserActivityContext::class)))
+        if (is_null($this->getUserActivities()))
             $this->clear();
     }
 
