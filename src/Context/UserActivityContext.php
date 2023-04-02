@@ -2,52 +2,33 @@
 
 namespace Ite\IotCore\Context;
 
-use DateTime;
-use Illuminate\Support\Facades\Cache;
-use Ite\IotCore\Models\UserActivity;
+use Ite\IotCore\Models\User;
 
 class UserActivityContext
 {
-    public function add(UserActivity $userActivity): bool
+    /**
+     * The Manager of Users Activities.
+     *
+     * @var UserActivityManager
+     */
+    public UserActivityManager $manager;
+
+    public function __construct(UserActivityManager $manager)
     {
-        $context = $this->getUserActivities();
-        $size = count($context);
-        $context[] = $userActivity;
-        $this->setUserActivities($context);
-        return count($context) == $size + 1;
+        $this->manager = $manager;
     }
 
-    public function remove(UserActivity $userActivity): bool
+    public function getUsersActivities(): array
     {
-        return true;
+        return $this->manager->getUserActivities();
     }
 
-    public function getUserActivities(): array|null
+    public function hasUser(User|int $user): array
     {
-        return Cache::get(UserActivityContext::class);
+        $userActivities = $this->manager->getUserActivities();
+        if (gettype($user) == 'integer')
+            return $userActivities[$user];
+        return $userActivities[$user->id];
     }
 
-    public function setUserActivities(array $userActivities): void
-    {
-        Cache::put(UserActivityContext::class, $userActivities);
-    }
-
-    public function clear(): void
-    {
-        $this->setUserActivities([]);
-    }
-
-    public function init(): void
-    {
-        if (is_null($this->getUserActivities()))
-            $this->clear();
-    }
-
-    public function clearExpired(): void
-    {
-        $context = array_filter($this->getUserActivities(), function ($userActivity) {
-            return $userActivity->expireAt > new DateTime();
-        });
-        $this->setUserActivities($context);
-    }
 }

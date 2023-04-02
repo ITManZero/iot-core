@@ -4,7 +4,7 @@ namespace Ite\IotCore\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Ite\IotCore\Context\UserActivityContext;
+use Ite\IotCore\Context\UserActivityManager;
 use Ite\IotCore\Models\UserActivity;
 use JsonMapper;
 use PhpAmqpLib\Channel\AbstractChannel;
@@ -28,7 +28,18 @@ class RabbitMQConsumerCommand extends Command
      */
     protected $description = 'Command description';
 
-    public UserActivityContext $context;
+    /**
+     * The Manager of Users Activities.
+     *
+     * @var UserActivityManager
+     */
+    public UserActivityManager $manager;
+
+    /**
+     * The Broker Connection.
+     *
+     * @var AMQPStreamConnection
+     */
     public AMQPStreamConnection $connection;
     protected AbstractChannel|AMQPChannel $channel;
     public mixed $queue;
@@ -37,7 +48,7 @@ class RabbitMQConsumerCommand extends Command
     /**
      * @throws Exception
      */
-    public function __construct(UserActivityContext $context)
+    public function __construct(UserActivityManager $context)
     {
         parent::__construct();
         $this->connection = new AMQPStreamConnection(
@@ -50,7 +61,7 @@ class RabbitMQConsumerCommand extends Command
 
         $this->channel = $this->connection->channel();
         $this->queue = env('RABBITMQ_QUEUE_NAME');
-        $this->context = $context;
+        $this->manager = $context;
     }
 
     /**
@@ -70,15 +81,14 @@ class RabbitMQConsumerCommand extends Command
                 $mapper = new JsonMapper();
                 /** @var UserActivity $userActivity */
                 $userActivity = $mapper->map($json, new UserActivity());
-                $this->context->add($userActivity);
-                print_r($this->context->getUserActivities());
+                $this->manager->add($userActivity);
             });
 
         while (count($this->channel->callbacks)) {
             $this->channel->wait();
         }
 
-        $this->context->clear();
+        $this->manager->clear();
         $this->channel->close();
         $this->connection->close();
     }
