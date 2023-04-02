@@ -26,7 +26,7 @@ class CoreProvider extends ServiceProvider
 
         $this->commands($this->commands);
 
-        $this->app->singleton(UserActivityContext::class, function () {
+        $this->app->bind(UserActivityContext::class, function () {
             return UserActivityContext::getInstance();
         });
     }
