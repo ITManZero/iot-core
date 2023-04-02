@@ -78,8 +78,8 @@ class RabbitMQConsumerCommand extends Command
             false,
             function (AMQPMessage $message) {
                 $json = json_decode($message->body);
-                if (!is_null($json['expireAt']))
-                    $json['expireAt'] = date_parse($json['expireAt']);
+                if (!is_null($json->expireAt))
+                    $json->expireAt = date_parse($json->expireAt);
                 $mapper = new JsonMapper();
                 /** @var UserActivity $userActivity */
                 $userActivity = $mapper->map($json, new UserActivity());
