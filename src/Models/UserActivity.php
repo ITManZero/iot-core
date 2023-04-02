@@ -13,28 +13,28 @@ class UserActivity
      */
     public int $id;
     /**
-     * Full name
+     * Name
      * @var string
      */
     public string $name;
     /**
-     * Full name
+     * Action
      * @var string
      */
     public string $action;
     /**
-     * Full name
+     * Message
      * @var string
      */
     public string $message;
     /**
-     * Full name
+     * Is Admin
      * @var bool
      */
     public bool $isAdmin;
 
     /**
-     * Full name
+     * Expire Date time
      * @var DateTime
      */
     public DateTime $expireAt;

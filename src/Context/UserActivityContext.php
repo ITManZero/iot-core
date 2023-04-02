@@ -9,6 +9,11 @@ class UserActivityContext
 {
     public array $userActivity;
 
+    public function __construct()
+    {
+        $this->userActivity = [];
+    }
+
     public function add(UserActivity $userActivity): bool
     {
         $size = count($this->userActivity);
