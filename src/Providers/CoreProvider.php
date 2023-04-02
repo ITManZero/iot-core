@@ -26,6 +26,7 @@ class CoreProvider extends ServiceProvider
             $this->app->register($provider);
 
         $this->commands($this->commands);
+        $this->app->singleton(UserActivityContext::class);
     }
 
 
@@ -35,14 +36,6 @@ class CoreProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $context = Cache::get(UserActivityContext::class);
-        if (is_null($context)) {
-            $context = serialize(UserActivityContext::getInstance());
-            Cache::put(UserActivityContext::class, $context);
-        }
-
-        $this->app->singleton(UserActivityContext::class, function () use ($context) {
-            return unserialize($context);
-        });
+        $this->app->make(UserActivityContext::class)->init();
     }
 }
