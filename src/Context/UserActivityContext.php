@@ -7,7 +7,7 @@ use Ite\IotCore\Models\UserActivity;
 
 class UserActivityContext
 {
-    public array $userActivities;
+    private array $userActivities;
 
     public function __construct()
     {
@@ -26,6 +26,16 @@ class UserActivityContext
         $size = count($this->userActivities);
         $this->userActivities[] = $userActivity;
         return count($this->userActivities) == $size - 1;
+    }
+
+    public function getUserActivities(): array
+    {
+        return $this->userActivities;
+    }
+
+    public function setUserActivities(array $userActivities): void
+    {
+        $this->userActivities = $userActivities;
     }
 
     public function clear(): void
