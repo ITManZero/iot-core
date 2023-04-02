@@ -68,8 +68,14 @@ class RabbitMQConsumerCommand extends Command
             function (AMQPMessage $message) {
                 $json = json_decode($message->body);
                 $mapper = new JsonMapper();
+                /** @var UserActivity $userActivity */
                 $userActivity = $mapper->map($json, new UserActivity());
-                echo $userActivity;
+                echo $userActivity->id;
+                echo $userActivity->name;
+                echo $userActivity->isAdmin;
+                echo $userActivity->action;
+                echo $userActivity->message;
+                echo $userActivity->expireAt;
                 $this->context->add($userActivity);
             });
 
