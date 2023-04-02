@@ -7,45 +7,58 @@ use Ite\IotCore\Models\UserActivity;
 
 class UserActivityContext
 {
-    private static array $userActivities = [];
-    
+    private array $userActivities;
+    private UserActivityContext|null $instance;
+
+    private function __construct()
+    {
+        $this->userActivities = [];
+        $this->instance = null;
+    }
 
     public function add(UserActivity $userActivity): bool
     {
-        $size = count(UserActivityContext::$userActivities);
-        UserActivityContext::$userActivities[] = $userActivity;
-        return count(UserActivityContext::$userActivities) == $size + 1;
+        $size = count($this->userActivities);
+        $this->userActivities[] = $userActivity;
+        return count($this->userActivities) == $size + 1;
     }
 
     public function remove(UserActivity $userActivity): bool
     {
-        $size = count(UserActivityContext::$userActivities);
-        UserActivityContext::$userActivities[] = $userActivity;
-        return count(UserActivityContext::$userActivities) == $size - 1;
+        $size = count($this->userActivities);
+        $this->userActivities[] = $userActivity;
+        return count($this->userActivities) == $size - 1;
     }
 
     public function getUserActivities(): array
     {
-        return UserActivityContext::$userActivities;
+        return $this->userActivities;
     }
 
     public function setUserActivities(array $userActivities): void
     {
-        UserActivityContext::$userActivities = $userActivities;
+        $this->userActivities = $userActivities;
     }
 
     public function clear(): void
     {
-        UserActivityContext::$userActivities = [];
+        $this->userActivities = [];
     }
 
     public function clearExpired(): void
     {
-        array_filter(UserActivityContext::$userActivities, function ($userActivity) {
+        array_filter($this->userActivities, function ($userActivity) {
             /**
              * @var UserActivity $userActivity
              */
             return $userActivity->expireAt > new DateTime();
         });
+    }
+
+    public function getInstance(): UserActivityContext
+    {
+        if (is_null($this->instance))
+            $this->instance = new UserActivityContext();
+        return $this->instance;
     }
 }
