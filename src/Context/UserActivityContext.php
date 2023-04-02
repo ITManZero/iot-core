@@ -8,12 +8,11 @@ use Ite\IotCore\Models\UserActivity;
 class UserActivityContext
 {
     private array $userActivities;
-    private UserActivityContext|null $instance;
+    private static UserActivityContext|null $instance = null;
 
     private function __construct()
     {
         $this->userActivities = [];
-        $this->instance = null;
     }
 
     public function add(UserActivity $userActivity): bool
@@ -55,10 +54,10 @@ class UserActivityContext
         });
     }
 
-    public function getInstance(): UserActivityContext
+    public static function getInstance(): UserActivityContext
     {
-        if (is_null($this->instance))
-            $this->instance = new UserActivityContext();
-        return $this->instance;
+        if (is_null(UserActivityContext::$instance))
+            UserActivityContext::$instance = new UserActivityContext();
+        return UserActivityContext::$instance;
     }
 }
