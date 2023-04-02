@@ -23,12 +23,12 @@ class UserActivityContext
         return $this->manager->getUserActivities();
     }
 
-    public function hasUser(User|int $user): array
+    public function hasUser(User|int $user): bool
     {
         $userActivities = $this->manager->getUserActivities();
         if (gettype($user) == 'integer')
-            return $userActivities[$user];
-        return $userActivities[$user->id];
+            return !is_null($userActivities[$user]);
+        return false;
     }
 
 }

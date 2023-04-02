@@ -3,7 +3,6 @@
 namespace Ite\IotCore\Providers;
 
 use Exception;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Ite\IotCore\Commands\RabbitMQConsumerCommand;
 use Ite\IotCore\Context\UserActivityContext;
