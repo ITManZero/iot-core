@@ -22,14 +22,14 @@ class UserActivityContext
         return true;
     }
 
-    public function getUserActivities(): array
+    public function getUserActivities(): array|string
     {
-        return unserialize(Cache::get(UserActivityContext::class));
+        return Cache::get(UserActivityContext::class);
     }
 
     public function setUserActivities(array $userActivities): void
     {
-        Cache::put(UserActivityContext::class, serialize($userActivities));
+        Cache::put(UserActivityContext::class, $userActivities);
     }
 
     public function clear(): void
