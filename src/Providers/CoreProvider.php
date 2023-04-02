@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Ite\IotCore\Commands\RabbitMQConsumerCommand;
 use Ite\IotCore\Context\UserActivityContext;
-use Ite\IotCore\Models\UserActivity;
 
 class CoreProvider extends ServiceProvider
 {
@@ -27,14 +26,6 @@ class CoreProvider extends ServiceProvider
             $this->app->register($provider);
 
         $this->commands($this->commands);
-        
-        $context = Cache::get(UserActivityContext::class);
-        if (is_null($context))
-            Cache::put(UserActivityContext::class, $context = UserActivityContext::getInstance());
-
-        $this->app->singleton(UserActivityContext::class, function () use ($context) {
-            return $context;
-        });
     }
 
 
@@ -44,6 +35,12 @@ class CoreProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $context = Cache::get(UserActivityContext::class);
+        if (is_null($context))
+            Cache::put(UserActivityContext::class, $context = UserActivityContext::getInstance());
 
+        $this->app->singleton(UserActivityContext::class, function () use ($context) {
+            return $context;
+        });
     }
 }
