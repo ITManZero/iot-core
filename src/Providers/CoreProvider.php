@@ -30,8 +30,8 @@ class CoreProvider extends ServiceProvider
         foreach ($this->providers as $provider)
             $this->app->register($provider);
 
-        $this->app->singleton(UserActivityManager::class);
-        $this->app->singleton(UserActivityContext::class);
+        foreach ($this->singletons as $singleton)
+            $this->app->singleton($singleton);
 
         $this->commands($this->commands);
     }
