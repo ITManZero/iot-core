@@ -7,45 +7,41 @@ use Ite\IotCore\Models\UserActivity;
 
 class UserActivityContext
 {
-    private array $userActivities;
-
-    public function __construct()
-    {
-        $this->userActivities = [];
-    }
+    private static array $userActivities = [];
+    
 
     public function add(UserActivity $userActivity): bool
     {
-        $size = count($this->userActivities);
-        $this->userActivities[] = $userActivity;
-        return count($this->userActivities) == $size + 1;
+        $size = count(UserActivityContext::$userActivities);
+        UserActivityContext::$userActivities[] = $userActivity;
+        return count(UserActivityContext::$userActivities) == $size + 1;
     }
 
     public function remove(UserActivity $userActivity): bool
     {
-        $size = count($this->userActivities);
-        $this->userActivities[] = $userActivity;
-        return count($this->userActivities) == $size - 1;
+        $size = count(UserActivityContext::$userActivities);
+        UserActivityContext::$userActivities[] = $userActivity;
+        return count(UserActivityContext::$userActivities) == $size - 1;
     }
 
     public function getUserActivities(): array
     {
-        return $this->userActivities;
+        return UserActivityContext::$userActivities;
     }
 
     public function setUserActivities(array $userActivities): void
     {
-        $this->userActivities = $userActivities;
+        UserActivityContext::$userActivities = $userActivities;
     }
 
     public function clear(): void
     {
-        $this->userActivities = [];
+        UserActivityContext::$userActivities = [];
     }
 
     public function clearExpired(): void
     {
-        array_filter($this->userActivities, function ($userActivity) {
+        array_filter(UserActivityContext::$userActivities, function ($userActivity) {
             /**
              * @var UserActivity $userActivity
              */
