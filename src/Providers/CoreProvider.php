@@ -30,7 +30,7 @@ class CoreProvider extends ServiceProvider
         $context = UserActivityContext::getInstance();
         $context->add(new UserActivity());
         $context->add(new UserActivity());
-        $this->app->singleton(UserActivityContext::class, $context);
+        $this->app->instance(UserActivityContext::class, $context);
     }
 
 
