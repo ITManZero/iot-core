@@ -9,35 +9,35 @@ use Ite\IotCore\Builders\UserActivityBuilder;
 class UserActivity
 {
     /**
-     * @var int
+     * @var int | null
      */
-    public int $id;
+    public int|null $id = null;
     /**
      * Name
-     * @var string
+     * @var string | null
      */
-    public string $name;
+    public string|null $name = null;
     /**
      * Action
-     * @var string
+     * @var string | null
      */
-    public string $action;
+    public string|null $action = null;
     /**
      * Message
-     * @var string
+     * @var string | null
      */
-    public string $message;
+    public string|null $message = null;
     /**
      * Is Admin
      * @var bool
      */
-    public bool $isAdmin;
+    public bool $isAdmin = false;
 
     /**
      * Expire Date time
-     * @var DateTime
+     * @var DateTime | null¬
      */
-    public DateTime $expireAt;
+    public DateTime|null $expireAt = null;
 
     public function create(int $id, string $name, string $action, string $message, bool $isAdmin): UserActivity
     {
