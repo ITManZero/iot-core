@@ -4,7 +4,7 @@ namespace Ite\IotCore\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Ite\IotCore\Context\UserActivityManager;
+use Ite\IotCore\Managers\UserActivityManager;
 use Ite\IotCore\Models\UserActivity;
 use JsonMapper;
 use PhpAmqpLib\Channel\AbstractChannel;

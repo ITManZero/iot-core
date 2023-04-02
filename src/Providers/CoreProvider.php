@@ -5,17 +5,24 @@ namespace Ite\IotCore\Providers;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Ite\IotCore\Commands\RabbitMQConsumerCommand;
+use Ite\IotCore\Context\ModuleContext;
 use Ite\IotCore\Context\UserActivityContext;
-use Ite\IotCore\Context\UserActivityManager;
+use Ite\IotCore\Managers\ModuleManager;
+use Ite\IotCore\Managers\UserActivityManager;
 
 class CoreProvider extends ServiceProvider
 {
     private array $providers = [
     ];
 
-    public array $singletons = [
+    public array $managers = [
         UserActivityManager::class,
+        ModuleManager::class,
+    ];
+
+    public array $contexts = [
         UserActivityContext::class,
+        ModuleContext::class,
     ];
 
     private array $commands = [
@@ -30,8 +37,11 @@ class CoreProvider extends ServiceProvider
         foreach ($this->providers as $provider)
             $this->app->register($provider);
 
-        foreach ($this->singletons as $singleton)
-            $this->app->singleton($singleton);
+        foreach ($this->managers as $manager)
+            $this->app->singleton($manager);
+
+        foreach ($this->contexts as $context)
+            $this->app->singleton($context);
 
         $this->commands($this->commands);
     }
@@ -43,6 +53,7 @@ class CoreProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->make(UserActivityManager::class)->init();
+        foreach ($this->managers as $manager)
+            $this->app->make($manager)->init();
     }
 }
