@@ -39,19 +39,19 @@ class UserActivity
      */
     public DateTime $expireAt;
 
-//    public function create(int $id, string $name, string $action, string $message, bool $isAdmin): UserActivity
-//    {
-//        $this->id = $id;
-//        $this->name = $name;
-//        $this->action = $action;
-//        $this->message = $message;
-//        $this->isAdmin = $isAdmin;
-//        return $this;
-//    }
-//
-//    public static function builder(): UserActivityBuilder
-//    {
-//        return new UserActivityBuilder();
-//    }
+    public function create(int $id, string $name, string $action, string $message, bool $isAdmin): UserActivity
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->action = $action;
+        $this->message = $message;
+        $this->isAdmin = $isAdmin;
+        return $this;
+    }
+
+    public static function builder(): UserActivityBuilder
+    {
+        return new UserActivityBuilder();
+    }
 
 }
