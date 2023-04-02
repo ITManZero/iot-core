@@ -70,12 +70,7 @@ class RabbitMQConsumerCommand extends Command
                 $mapper = new JsonMapper();
                 /** @var UserActivity $userActivity */
                 $userActivity = $mapper->map($json, new UserActivity());
-                echo $userActivity->id;
-                echo $userActivity->name;
-                echo $userActivity->isAdmin;
-                echo $userActivity->action;
-                echo $userActivity->message;
-                echo $userActivity->expireAt;
+                echo $userActivity;
                 $this->context->add($userActivity);
             });
 

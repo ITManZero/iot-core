@@ -35,7 +35,7 @@ class UserActivity
 
     /**
      * Expire Date time
-     * @var DateTime | null¬
+     * @var DateTime | null
      */
     public DateTime|null $expireAt = null;
 
@@ -52,6 +52,16 @@ class UserActivity
     public static function builder(): UserActivityBuilder
     {
         return new UserActivityBuilder();
+    }
+
+    public function __toString()
+    {
+        return
+            $this->id . ' '
+            . $this->name . ' '
+            . $this->action . ' '
+            . $this->isAdmin . ' '
+            . $this->expireAt->format("Y-m-d H:i:s");
     }
 
 }
