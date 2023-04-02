@@ -13,6 +13,8 @@ class UserActivityManager extends BaseManager
     public function add(mixed $userActivity): bool
     {
         $userActivities = $this->get();
+        print_r($userActivities);
+        print_r(gettype($userActivities));
         $size = count($userActivities);
         $userActivities[$userActivity->id] = $userActivity;
         $this->set($userActivities);
@@ -37,7 +39,7 @@ class UserActivityManager extends BaseManager
         $this->set($userActivities);
     }
 
-    public function init(): mixed
+    public function init(): array
     {
         return [];
     }
