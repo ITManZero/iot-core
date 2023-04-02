@@ -69,6 +69,8 @@ class RabbitMQConsumerCommand extends Command
                 $json = json_decode($message->body);
                 $mapper = new JsonMapper();
                 /** @var UserActivity $userActivity */
+                echo $json;
+                echo $message->body;
                 $userActivity = $mapper->map($json, new UserActivity());
                 echo $userActivity;
                 $this->context->add($userActivity);
