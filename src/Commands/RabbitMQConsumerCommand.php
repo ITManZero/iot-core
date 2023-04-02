@@ -44,7 +44,8 @@ class RabbitMQConsumerCommand extends Command
             env('RABBITMQ_HOST'),
             env('RABBITMQ_PORT'),
             env('RABBITMQ_USER'),
-            env('RABBITMQ_PASSWORD')
+            env('RABBITMQ_PASSWORD'),
+            env('RABBITMQ_VHOST')
         );
 
         $this->channel = $this->connection->channel();
