@@ -4,6 +4,12 @@ namespace Ite\IotCore\Managers;
 
 class UserActivityManager extends BaseManager
 {
+
+    public function __construct()
+    {
+        parent::__construct(UserActivityManager::class);
+    }
+
     public function add(mixed $userActivity): bool
     {
         $userActivities = $this->get();
