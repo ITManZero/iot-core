@@ -61,7 +61,7 @@ class UserActivity
             . $this->name . ' '
             . $this->action . ' '
             . $this->isAdmin . ' '
-            . $this->expireAt->format("Y-m-d H:i:s");
+            . $this->expireAt == null ? null : $this->expireAt->format("Y-m-d H:i:s");
     }
 
 }
