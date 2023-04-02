@@ -72,7 +72,8 @@ class RabbitMQConsumerCommand extends Command
                 echo $message->body;
                 $userActivity = $mapper->map($json, new UserActivity());
                 echo $userActivity;
-                $this->context->add($userActivity);
+                echo $userActivity->name;
+                echo $this->context->add($userActivity);
             });
 
         while (count($this->channel->callbacks)) {
