@@ -11,6 +11,7 @@ class UserActivityContext
     public function add(UserActivity $userActivity): bool
     {
         $context = $this->getUserActivities();
+        dd($context);
         $size = count($context);
         $context[] = $userActivity;
         $this->setUserActivities($context);
