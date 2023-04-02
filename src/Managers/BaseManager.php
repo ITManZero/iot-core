@@ -32,6 +32,7 @@ abstract class BaseManager
 
     public function init(): void
     {
-        $this->set($this->initValue());
+        if (is_null($this->get()))
+            $this->set($this->initValue());
     }
 }
