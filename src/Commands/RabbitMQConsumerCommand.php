@@ -66,7 +66,7 @@ class RabbitMQConsumerCommand extends Command
             false,
             false,
             function (AMQPMessage $message) {
-                $json = json_decode($message->body, false);
+                $json = json_decode($message->body);
                 $mapper = new JsonMapper();
                 $userActivity = $mapper->map($json, new UserActivity());
                 $this->context->add($userActivity);
