@@ -29,7 +29,7 @@ class UserActivityContext
 
     public function setUserActivities(array $userActivities): void
     {
-        Cache::put(UserActivityContext::class, $userActivities);
+        Cache::put(UserActivityContext::class, serialize($userActivities));
     }
 
     public function clear(): void
