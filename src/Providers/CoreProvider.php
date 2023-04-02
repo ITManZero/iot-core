@@ -13,9 +13,9 @@ class CoreProvider extends ServiceProvider
     private array $providers = [
     ];
 
-    private array $singletons = [
+    public array $singletons = [
         UserActivityManager::class,
-//        UserActivityContext::class,
+        UserActivityContext::class,
     ];
 
     private array $commands = [
