@@ -32,7 +32,8 @@ class PayloadUser implements AuthenticatableContract, JWTSubject
      * Phone Number
      * @var string | null
      */
-    public $phoneNumber;
+    public ?string $phoneNumber;
+    
     protected string $rememberTokenName = 'remember_token';
 
     /**
