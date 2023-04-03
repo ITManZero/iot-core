@@ -9,22 +9,22 @@ class UserActivity
     /**
      * @var int | null
      */
-    public ?int $id = null;
+    public int|null $id = null;
     /**
      * Name
      * @var string | null
      */
-    public ?string $name = null;
+    public string|null $name = null;
     /**
      * Action
      * @var string | null
      */
-    public ?string $action = null;
+    public string|null $action = null;
     /**
      * Message
      * @var string | null
      */
-    public ?string $message = null;
+    public string|null $message = null;
     /**
      * Is Admin
      * @var bool
@@ -35,7 +35,7 @@ class UserActivity
      * Expire Date time
      * @var \DateTime | null
      */
-    public ?\DateTime $expireAt = null;
+    public \DateTime|null $expireAt = null;
 
     public function create(int $id, string $name, string $action, string $message, bool $isAdmin): UserActivity
     {

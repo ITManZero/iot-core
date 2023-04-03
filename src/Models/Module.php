@@ -10,7 +10,7 @@ class Module
      * Name
      * @var string | null
      */
-    public ?string $name = null;
+    public string|null $name = null;
 
     public function create(string $name): Module
     {

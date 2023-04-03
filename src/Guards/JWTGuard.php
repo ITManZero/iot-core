@@ -74,6 +74,7 @@ class JWTGuard implements Guard
         if ($this->jwt->setRequest($this->request)->getToken()
             && $payload = $this->jwt->check(true)) {
             $mapper = new JsonMapper();
+            $mapper->bStrictNullTypes = false;
             return $this->user = $mapper->map((object)$payload->get('extra'), new PayloadUser());
         }
         return null;
