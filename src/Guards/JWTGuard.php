@@ -123,20 +123,7 @@ class JWTGuard implements Guard
         $this->user = null;
         $this->jwt->unsetToken();
     }
-
-    /**
-     * Refresh the token.
-     *
-     * @param bool $forceForever
-     * @param bool $resetClaims
-     * @return string
-     * @throws JWTException
-     */
-    public function refresh(bool $forceForever = false, bool $resetClaims = false): string
-    {
-        return $this->requireToken()->refresh($forceForever, $resetClaims);
-    }
-
+    
     /**
      * Invalidate the token.
      *
@@ -147,19 +134,6 @@ class JWTGuard implements Guard
     public function invalidate(bool $forceForever = false): JWT
     {
         return $this->requireToken()->invalidate($forceForever);
-    }
-
-    /**
-     * Add any custom claims.
-     *
-     * @param array $claims
-     * @return $this
-     */
-    public function claims(array $claims): static
-    {
-        $this->jwt->claims($claims);
-
-        return $this;
     }
 
     /**
