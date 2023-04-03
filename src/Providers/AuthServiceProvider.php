@@ -43,6 +43,6 @@ class AuthServiceProvider extends ServiceProvider
                 return $guard;
             }
         );
-        $this->app['auth']->setDefaultDriver('jwt');
+        $this->app['auth']->setDefaultDriver('api');
     }
 }
