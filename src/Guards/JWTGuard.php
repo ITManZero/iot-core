@@ -74,6 +74,7 @@ class JWTGuard implements Guard
         if ($this->jwt->setRequest($this->request)->getToken()
             && $payload = $this->jwt->check(true)) {
             $mapper = new JsonMapper();
+            dd($payload, $mapper->map($payload, new PayloadUser()));
             return $this->user = $mapper->map($payload, new PayloadUser());
         }
         return null;
@@ -123,7 +124,7 @@ class JWTGuard implements Guard
         $this->user = null;
         $this->jwt->unsetToken();
     }
-    
+
     /**
      * Invalidate the token.
      *
