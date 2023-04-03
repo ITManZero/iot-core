@@ -115,6 +115,6 @@ class PayloadUser implements AuthenticatableContract, JWTSubject
      */
     public function getJWTCustomClaims(): array
     {
-        return json_decode(json_encode($this), true);
+        return ["extra" => json_decode(json_encode($this), true)];
     }
 }
