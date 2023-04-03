@@ -3,7 +3,7 @@
 namespace Ite\IotCore\Context;
 
 use Ite\IotCore\Managers\UserActivityManager;
-use Ite\IotCore\Models\User;
+use Ite\IotCore\Models\PayloadUser;
 
 class UserActivityContext
 {
@@ -24,7 +24,7 @@ class UserActivityContext
         return $this->manager->get();
     }
 
-    public function hasUser(User|int $user): bool
+    public function hasUser(PayloadUser|int $user): bool
     {
         $userActivities = $this->manager->get();
         if (gettype($user) == 'integer')
