@@ -22,6 +22,9 @@ class ModuleManager extends BaseManager
 
     public function initValue(): string
     {
-        return env('MODULE_NAME');
+        print_r(env('MODULE_NAME'));
+        print_r("env('MODULE_NAME')");
+        print_r("env('MODULE_NAME')");
+        return env('MODULE_NAME') ?? "";
     }
 }

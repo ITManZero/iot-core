@@ -11,7 +11,7 @@ class ModuleContext
      *
      * @var ModuleManager
      */
-    public ModuleManager $manager;
+    private ModuleManager $manager;
 
     public function __construct(ModuleManager $manager)
     {
@@ -20,7 +20,7 @@ class ModuleContext
 
     public function currentModule(): string
     {
-        return $this->manager->get();
+        return $this->manager->get() ?? '';
     }
 
 }

@@ -12,7 +12,7 @@ class UserActivityContext
      *
      * @var UserActivityManager
      */
-    public UserActivityManager $manager;
+    private UserActivityManager $manager;
 
     public function __construct(UserActivityManager $manager)
     {
