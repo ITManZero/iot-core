@@ -27,8 +27,10 @@ class UserActivityContext
     public function hasUser(PayloadUser|int $user): bool
     {
         $userActivities = $this->manager->get();
-        if (gettype($user) == 'integer')
-            return !is_null($userActivities[$user]);
+        if (gettype($user) == 'integer') {
+            $user = $userActivities[$user] ?? null;
+            return !is_null($user);
+        }
         return false;
     }
 
