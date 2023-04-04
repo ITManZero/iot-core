@@ -28,6 +28,14 @@ class RabbitMQProvider extends ServiceProvider
 
     public function boot()
     {
-
+        /** @var AMQPStreamConnection $connection */
+        $connection = $this->app->make(AMQPStreamConnection::class);
+        $channel = $connection->channel();
+        $exchange_name = "user-activity";
+        $queue_name = "blocked-users";
+        $binding_key = "blocked";
+        $channel->exchange_declare($exchange_name, 'direct', false, false, false);
+        $channel->queue_declare($queue_name);
+        $channel->queue_bind($queue_name, $exchange_name, $binding_key);
     }
 }
