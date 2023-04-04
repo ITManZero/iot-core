@@ -4,7 +4,6 @@ namespace Ite\IotCore\Providers;
 
 use Exception;
 use Illuminate\Support\ServiceProvider;
-use Ite\IotCore\Commands\RabbitMQConsumerCommand;
 use Ite\IotCore\Context\ModuleContext;
 use Ite\IotCore\Context\UserActivityContext;
 use Ite\IotCore\Managers\ModuleManager;
@@ -13,7 +12,9 @@ use Ite\IotCore\Managers\UserActivityManager;
 class CoreProvider extends ServiceProvider
 {
     private array $providers = [
-        AuthServiceProvider::class
+        AuthServiceProvider::class,
+        RabbitMQProvider::class,
+        CommandProvider::class
     ];
 
     public array $managers = [
@@ -26,9 +27,6 @@ class CoreProvider extends ServiceProvider
         ModuleContext::class,
     ];
 
-    private array $commands = [
-        RabbitMQConsumerCommand::class
-    ];
 
     /**
      * Register services.
@@ -43,8 +41,6 @@ class CoreProvider extends ServiceProvider
 
         foreach ($this->contexts as $context)
             $this->app->singleton($context);
-
-        $this->commands($this->commands);
     }
 
 

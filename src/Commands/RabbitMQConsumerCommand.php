@@ -42,26 +42,17 @@ class RabbitMQConsumerCommand extends Command
      */
     public AMQPStreamConnection $connection;
     protected AbstractChannel|AMQPChannel $channel;
-    public mixed $queue;
 
 
     /**
      * @throws Exception
      */
-    public function __construct(UserActivityManager $context)
+    public function __construct(UserActivityManager $manager, AMQPStreamConnection $connection)
     {
         parent::__construct();
-        $this->connection = new AMQPStreamConnection(
-            env('RABBITMQ_HOST'),
-            env('RABBITMQ_PORT'),
-            env('RABBITMQ_USER'),
-            env('RABBITMQ_PASSWORD'),
-            env('RABBITMQ_VHOST')
-        );
-
+        $this->connection = $connection;
         $this->channel = $this->connection->channel();
-        $this->queue = env('RABBITMQ_QUEUE_NAME');
-        $this->manager = $context;
+        $this->manager = $manager;
     }
 
     /**
@@ -88,7 +79,6 @@ class RabbitMQConsumerCommand extends Command
             $this->channel->wait();
         }
 
-        $this->manager->clear();
         $this->channel->close();
         $this->connection->close();
     }
