@@ -2,6 +2,7 @@
 
 namespace Ite\IotCore\Providers;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Ite\IotCore\Guards\JWTGuard;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -26,6 +27,9 @@ class RabbitMQProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     public function boot()
     {
         /** @var AMQPStreamConnection $connection */

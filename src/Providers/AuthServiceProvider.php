@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        if ($moduleContext->currentModule() == 'admin')
+        if ($moduleContext->isAdminModule())
             $this->app['auth']->extend('jwt', function ($app, $name, array $config) {
                 $guard = new AdminJWTGuard(
                     $app['tymon.jwt'],

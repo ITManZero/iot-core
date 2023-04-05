@@ -23,4 +23,9 @@ class ModuleContext
         return $this->manager->get() ?? '';
     }
 
+    public function isAdminModule(): string
+    {
+        return $this->currentModule() == 'admin' && $this->currentModule() != '';
+    }
+
 }

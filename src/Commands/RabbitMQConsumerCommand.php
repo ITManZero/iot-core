@@ -4,6 +4,7 @@ namespace Ite\IotCore\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Ite\IotCore\Context\ModuleContext;
 use Ite\IotCore\Managers\UserActivityManager;
 use Ite\IotCore\Models\UserActivity;
 use JsonMapper;
@@ -43,16 +44,20 @@ class RabbitMQConsumerCommand extends Command
     public AMQPStreamConnection $connection;
     protected AbstractChannel|AMQPChannel $channel;
 
+    protected ModuleContext $moduleContext;
 
     /**
      * @throws Exception
      */
-    public function __construct(UserActivityManager $manager, AMQPStreamConnection $connection)
+    public function __construct(UserActivityManager  $manager,
+                                AMQPStreamConnection $connection,
+                                ModuleContext        $moduleContext)
     {
         parent::__construct();
         $this->connection = $connection;
         $this->channel = $this->connection->channel();
         $this->manager = $manager;
+        $this->moduleContext = $moduleContext;
     }
 
     /**
@@ -61,6 +66,9 @@ class RabbitMQConsumerCommand extends Command
      */
     public function handle(): void
     {
+        if ($this->moduleContext->isAdminModule())
+            throw new Exception('admin module acts as producer not consumer');
+
         $this->channel->basic_consume('blocked-users',
             '',
             false,
