@@ -2,44 +2,53 @@
 
 namespace Ite\IotCore\Providers;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Ite\IotCore\Guards\JWTGuard;
+use PhpAmqpLib\Channel\AbstractChannel;
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 
-class RabbitMQProvider extends ServiceProvider
+class RabbitMQProvider
 {
 
-    /**
-     * Register any services.
-     */
-    public function register()
-    {
-        $this->app->singleton(AMQPStreamConnection::class, function () {
-            return new AMQPStreamConnection(
-                env('RABBITMQ_HOST'),
-                env('RABBITMQ_PORT'),
-                env('RABBITMQ_USER'),
-                env('RABBITMQ_PASSWORD'),
-                env('RABBITMQ_VHOST')
-            );
-        });
-    }
+    public AMQPStreamConnection $connection;
+    public AbstractChannel|AMQPChannel $channel;
 
     /**
-     * @throws BindingResolutionException
+     * @throws \Exception
      */
-    public function boot()
+    public function __construct()
     {
-        /** @var AMQPStreamConnection $connection */
-        $connection = $this->app->make(AMQPStreamConnection::class);
-        $channel = $connection->channel();
-        $exchange_name = "user-activity";
-        $queue_name = "blocked-users";
-        $binding_key = "blocked";
-        $channel->exchange_declare($exchange_name, 'direct', false, false, false);
-        $channel->queue_declare($queue_name);
-        $channel->queue_bind($queue_name, $exchange_name, $binding_key);
+        $this->connection = new AMQPStreamConnection(
+            env('RABBITMQ_HOST'),
+            env('RABBITMQ_PORT'),
+            env('RABBITMQ_USER'),
+            env('RABBITMQ_PASSWORD'),
+            env('RABBITMQ_VHOST')
+        );;
+        $this->channel = $this->connection->channel();
+        $this->init();
+    }
+
+    private function init(): void
+    {
+        $config = config('rabbitmq');
+
+        // creating exchange
+        $exchanges = $config['exchanges'];
+        foreach ($exchanges as $exchange) {
+            $this->channel->exchange_declare(
+                $exchange['name'],
+                $exchange['type'],
+                $exchange['passive'],
+                $exchange['durable'],
+                $exchange['auto_delete']);
+        }
+
+        // creating and binding queues
+        $queues = $config['queues'];
+        foreach ($queues as $queue) {
+            $this->channel->queue_declare($queue['name']);
+            $this->channel->queue_bind($queue['name'], $queue['exchange'], $queue['bind']);
+        }
     }
 }

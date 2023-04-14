@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Ite\IotCore\Context\ModuleContext;
 use Ite\IotCore\Managers\UserActivityManager;
 use Ite\IotCore\Models\UserActivity;
+use Ite\IotCore\Providers\RabbitMQProvider;
 use JsonMapper;
 use PhpAmqpLib\Channel\AbstractChannel;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -49,13 +50,13 @@ class RabbitMQConsumerCommand extends Command
     /**
      * @throws Exception
      */
-    public function __construct(UserActivityManager  $manager,
-                                AMQPStreamConnection $connection,
-                                ModuleContext        $moduleContext)
+    public function __construct(UserActivityManager $manager,
+                                ModuleContext       $moduleContext)
     {
         parent::__construct();
-        $this->connection = $connection;
-        $this->channel = $this->connection->channel();
+        $rabbitmqProvider = new RabbitMQProvider();
+        $this->connection = $rabbitmqProvider->connection;
+        $this->channel = $rabbitmqProvider->channel;
         $this->manager = $manager;
         $this->moduleContext = $moduleContext;
     }
