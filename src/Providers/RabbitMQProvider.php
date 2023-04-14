@@ -33,22 +33,24 @@ class RabbitMQProvider
     {
         $config = config('rabbitmq');
 
-        // creating exchange
-        $exchanges = $config['exchanges'];
-        foreach ($exchanges as $exchange) {
-            $this->channel->exchange_declare(
-                $exchange['name'],
-                $exchange['type'],
-                $exchange['passive'],
-                $exchange['durable'],
-                $exchange['auto_delete']);
-        }
+        if ($config) {
+            // creating exchange
+            $exchanges = $config['exchanges'] ?? [];
+            foreach ($exchanges as $exchange) {
+                $this->channel->exchange_declare(
+                    $exchange['name'],
+                    $exchange['type'],
+                    $exchange['passive'],
+                    $exchange['durable'],
+                    $exchange['auto_delete']);
+            }
 
-        // creating and binding queues
-        $queues = $config['queues'];
-        foreach ($queues as $queue) {
-            $this->channel->queue_declare($queue['name']);
-            $this->channel->queue_bind($queue['name'], $queue['exchange'], $queue['bind']);
+            // creating and binding queues
+            $queues = $config['queues'] ?? [];
+            foreach ($queues as $queue) {
+                $this->channel->queue_declare($queue['name']);
+                $this->channel->queue_bind($queue['name'], $queue['exchange'], $queue['bind']);
+            }
         }
     }
 }
