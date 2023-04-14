@@ -13,7 +13,6 @@ class CoreProvider extends ServiceProvider
 {
     private array $providers = [
         AuthServiceProvider::class,
-        RabbitMQProvider::class,
         CommandProvider::class
     ];
 
