@@ -33,7 +33,6 @@ class AdminJWTGuard extends JWTGuard
 
         if ($this->jwt->setRequest($this->request)->getToken() &&
             ($payload = $this->jwt->check(true))) {
-            dd($payload);
             return $this->user = $this->provider->retrieveById($payload['sub']);
         }
         return null;
