@@ -70,6 +70,8 @@ class JWTGuard implements Guard
         if (!is_null($this->user)) {
             return $this->user;
         }
+        dd($this->jwt->setRequest($this->request)->getToken());
+
         if ($this->jwt->setRequest($this->request)->getToken())
             dd($this->jwt->getToken());
         if ($this->jwt->setRequest($this->request)->getToken()
