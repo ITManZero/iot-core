@@ -18,7 +18,7 @@ class PayloadUser implements AuthenticatableContract, JWTSubject
      * Name
      * @var string
      */
-    public string $name;
+    public string $user_name;
 
     /**
      * Email
@@ -26,13 +26,14 @@ class PayloadUser implements AuthenticatableContract, JWTSubject
      */
     public string $email;
 
-    public array $roles;
+    public array $all_roles;
+    public array $all_permissions;
 
     /**
      * Phone Number
      * @var string | null
      */
-    public string|null $phoneNumber;
+    public string|null $phone;
 
     protected string $rememberTokenName = 'remember_token';
 
