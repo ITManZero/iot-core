@@ -13,7 +13,7 @@ class CoreProvider extends ServiceProvider
 {
     private array $providers = [
         AuthServiceProvider::class,
-        CommandProvider::class
+//        CommandProvider::class
     ];
 
     public array $managers = [
