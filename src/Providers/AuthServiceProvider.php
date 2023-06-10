@@ -5,6 +5,7 @@ namespace Ite\IotCore\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Ite\IotCore\Context\ModuleContext;
 use Ite\IotCore\Guards\AdminJWTGuard;
+use Ite\IotCore\Guards\UserJWTGuard;
 use Ite\IotCore\Guards\JWTGuard;
 
 
@@ -31,17 +32,24 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        if ($moduleContext->isAdminModule())
+        if ($moduleContext->isAdminModule()) {
             $this->app['auth']->extend('jwt', function ($app, $name, array $config) {
+                $guard = new UserJWTGuard(
+                    $app['tymon.jwt'],
+                    $app['auth']->createUserProvider($config['provider']),
+                    $app['request']);
+                $app->refresh('request', $guard, 'setRequest');
+                return $guard;
+            });
+            $this->app['auth']->extend('jwt-admin', function ($app, $name, array $config) {
                 $guard = new AdminJWTGuard(
                     $app['tymon.jwt'],
                     $app['auth']->createUserProvider($config['provider']),
                     $app['request']);
                 $app->refresh('request', $guard, 'setRequest');
                 return $guard;
-            }
-            );
-        else
+            });
+        } else
             $this->app['auth']->extend('jwt', function ($app) {
                 $guard = new JWTGuard($app['tymon.jwt'], $app['request']);
                 $app->refresh('request', $guard, 'setRequest');

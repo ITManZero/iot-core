@@ -2,11 +2,9 @@
 
 namespace Ite\IotCore\Services;
 
-use Ite\IotCore\Providers\RabbitMQProvider;
 use PhpAmqpLib\Channel\AbstractChannel;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
 class MessagingService
 {

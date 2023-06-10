@@ -54,11 +54,11 @@ class RabbitMQConsumerCommand extends Command
                                 ModuleContext       $moduleContext)
     {
         parent::__construct();
-        $rabbitmqProvider = new RabbitMQProvider();
-        $this->connection = $rabbitmqProvider->connection;
-        $this->channel = $rabbitmqProvider->channel;
-        $this->manager = $manager;
-        $this->moduleContext = $moduleContext;
+//        $rabbitmqProvider = new RabbitMQProvider();
+//        $this->connection = $rabbitmqProvider->connection;
+//        $this->channel = $rabbitmqProvider->channel;
+//        $this->manager = $manager;
+//        $this->moduleContext = $moduleContext;
     }
 
     /**
@@ -67,29 +67,29 @@ class RabbitMQConsumerCommand extends Command
      */
     public function handle(): void
     {
-        if ($this->moduleContext->isAdminModule())
-            throw new Exception('admin module acts as producer not consumer');
-
-        $this->channel->basic_consume('blocked-users',
-            '',
-            false,
-            true,
-            false,
-            false,
-            function (AMQPMessage $message) {
-                $json = json_decode($message->body);
-                $mapper = new JsonMapper();
-                /** @var UserActivity $userActivity */
-                $mapper->bStrictNullTypes = false;
-                $userActivity = $mapper->map($json, new UserActivity());
-                $this->manager->add($userActivity);
-            });
-
-        while (count($this->channel->callbacks)) {
-            $this->channel->wait();
-        }
-
-        $this->channel->close();
-        $this->connection->close();
+//        if ($this->moduleContext->isAdminModule())
+//            throw new Exception('admin module acts as producer not consumer');
+//
+//        $this->channel->basic_consume('blocked-users',
+//            '',
+//            false,
+//            true,
+//            false,
+//            false,
+//            function (AMQPMessage $message) {
+//                $json = json_decode($message->body);
+//                $mapper = new JsonMapper();
+//                /** @var UserActivity $userActivity */
+//                $mapper->bStrictNullTypes = false;
+//                $userActivity = $mapper->map($json, new UserActivity());
+//                $this->manager->add($userActivity);
+//            });
+//
+//        while (count($this->channel->callbacks)) {
+//            $this->channel->wait();
+//        }
+//
+//        $this->channel->close();
+//        $this->connection->close();
     }
 }

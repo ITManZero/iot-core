@@ -21,6 +21,12 @@ class PayloadUser implements AuthenticatableContract, JWTSubject
     public string $user_name;
 
     /**
+     * Name
+     * @var string
+     */
+    public string $name;
+
+    /**
      * Email
      * @var string
      */
